@@ -1,4 +1,5 @@
-// ===== Lab 5: Conditionals =====
+
+// ===== Lab 5: Conditionals  =====
 // Type your answers under each problem.
 // Run your code after every problem. Do not wait until the end.
 //
@@ -15,11 +16,7 @@
 // Problem 1
 // isOdd should return true when n is odd and false when it is even.
 func isOdd(n: Int) -> Bool {
-    if n % 2 == 1  {
-        return true
-    } else {
-        return false
-    }
+    return false       // TODO: replace this
 }
 
 // Problem 2
@@ -32,19 +29,9 @@ func bigger(a: Int, b: Int) -> Int {
 // Problem 3
 // letterGrade should return "A" for 90 and up, "B" for 80 and up,
 // "C" for 70 and up, "D" for 60 and up, and "F" below that.
-// Hint: you will need "else if" statements
+// Careful about the ORDER of your conditions. See Part 2 Problem 5.
 func letterGrade(score: Int) -> String {
-    if score >= 90 {
-        return "A"
-    } else if score >= 80 {
-        return "B"
-    } else if score >= 70 {
-        return "C"
-    } else if score >= 60 {
-        return "D"
-    } else {
-        return "F"
-    }
+    return ""           // TODO: replace this
 }
 
 // Problem 4
@@ -178,4 +165,5 @@ testString(label: "paper vs scissors",    got: playRound(player: "paper",    com
 testString(label: "scissors vs paper",    got: playRound(player: "scissors", computer: "paper"),    want: "win")
 testString(label: "scissors vs rock",     got: playRound(player: "scissors", computer: "rock"),     want: "lose")
 testString(label: "scissors vs scissors", got: playRound(player: "scissors", computer: "scissors"), want: "tie")
+
 
