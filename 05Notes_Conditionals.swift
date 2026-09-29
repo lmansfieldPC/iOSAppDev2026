@@ -11,7 +11,9 @@ if temp > 80 {
 /////////////////////////////////////////////////////////////////////////////////
 //if and else. One of them always runs.
 var score = 65
-if score >= 70 {
+if score >= 90 {
+    print("You did great!")
+} else if score >= 70 {
     print("You passed.")
 } else {
     print("You did not pass.")
