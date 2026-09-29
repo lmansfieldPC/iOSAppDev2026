@@ -29,7 +29,7 @@ func bigger(a: Int, b: Int) -> Int {
 // Problem 3
 // letterGrade should return "A" for 90 and up, "B" for 80 and up,
 // "C" for 70 and up, "D" for 60 and up, and "F" below that.
-// Careful about the ORDER of your conditions. See Part 2 Problem 5.
+// Hint: You will need "if else" statements.
 func letterGrade(score: Int) -> String {
     return ""           // TODO: replace this
 }
