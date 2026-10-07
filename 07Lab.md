@@ -7,13 +7,12 @@ Create a simple food ordering app using SwiftUI that allows users to add differe
 In this lab, you will create an app that displays three different food options. The user can tap on buttons to add foods to their order. The app will display the total cost of the food items.
 
 ## Process
-1. Create a new iOS project in Xcode.
+1. Create a new app in Playground.
 
-2. Follow the example code in [Class Notes 6](https://github.com/lmansfieldPC/iOSAppDevelopment/blob/main/Class_Notes6_YourFirstApp.md). You will have to create three buttons representing three different foods.
+2. Follow the example code in Class Notes 7. You will have to create three buttons representing three different foods.
 
 3. When the user clicks a food button, the cost of that food is added to their total cost. 
 
-4. Use SF Symbols so your buttons are displayed as icons. You may want to download the [SF App](https://developer.apple.com/sf-symbols/) to browse all the possible icons.
 
 ## Starter Code
 
