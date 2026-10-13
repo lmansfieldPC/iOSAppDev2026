@@ -2,13 +2,13 @@
 
 You are building a form that collects silly answers and then builds a story out of them. As the user changes an input, the story changes with it.
 
-Work in order. Run after every single change.
+The walkthrough builds the machine one piece at a time. Do each step, run it, and read the short explanation before moving on. Then you make your own.
 
 ---
 
-## Start code
+## Step 1: One question
 
-This already works. Copy it into a new project and run it before you change anything.
+Start a new project and replace `ContentView` with this.
 
 ```swift
 import SwiftUI
@@ -16,120 +16,187 @@ import SwiftUI
 struct ContentView: View {
 
     @State private var name = ""
-    @State private var animal = ""
-    @State private var count = 1
-    @State private var storyColor = Color.blue
 
     var body: some View {
         Form {
-
-            Section("Fill these in") {
-                TextField("Your name", text: $name)
-                TextField("An animal", text: $animal)
-                Stepper("How many: \(count)", value: $count, in: 1...50)
-                ColorPicker("Story color", selection: $storyColor)
-            }
-
-            Section("Your story") {
-                Text("\(name) woke up and found \(count) \(animal)s in the kitchen.")
-                    .font(.title3)
-                    .foregroundStyle(storyColor)
-            }
-
+            TextField("Your name", text: $name)
+            Text("Hello, \(name)!")
         }
     }
 }
 ```
 
----
+Run it and type your name. The greeting changes as you type.
 
-## Part 1: Predict, then run
+**What `@State` means.** A normal `let` or `var` inside a view cannot change once the screen is drawn. `@State` marks a value as one that *will* change, and tells SwiftUI to redraw the screen every time it does. Without it, typing would go nowhere.
 
-Write your prediction down first. Then try it and check.
+**Why it needs a starting value.** `@State private var name = ""` starts as an empty string. If you write `@State private var name: String` with no value, Swift has nothing to show before the user types, and the project will not build. Every `@State` needs a starting value.
 
-1. Before you type anything into the name field, what does the story sentence say where your name should be?
+**What the `$` does.** There are two different jobs here, and they use different syntax:
 
-2. Change `.font(.title3)` to `.font(.largeTitle)`. What moves?
+- `Text("Hello, \(name)!")` — just *reading* the value. No dollar sign.
+- `TextField("Your name", text: $name)` — reading **and writing**. The TextField has to be able to change `name` when the user types, so it needs `$name`.
 
-3. Put `.foregroundStyle(storyColor)` on the `Section` instead of on the `Text`. What gets colored?
+The `$` means "a two-way connection to this value." Any control the user can change needs it. Anything that only displays needs the plain name.
 
-4. Change the Stepper's range from `1...50` to `1...3`. What happens when you tap plus four times?
-
-5. Add this inside the first Section. What kind of control do you get, and where does it send you when you tap it?
-
-```swift
-Picker("Mood", selection: $count) {
-    Text("Happy").tag(1)
-    Text("Grumpy").tag(2)
-}
-```
+> **Try it:** delete the `$` from `$name` and run. Read the error. Put it back.
 
 ---
 
-## Part 2: Fix the broken code
-
-Each one has a single mistake. Try one at a time. Write down what was wrong.
-
-**Problem 1**
+## Step 2: More questions, one story
 
 ```swift
-TextField("Your name", text: name)
+@State private var name = ""
+@State private var animal = ""
 ```
 
-**Problem 2**
-
 ```swift
-@State private var age: Int
-```
+var body: some View {
+    Form {
+        TextField("Your name", text: $name)
+        TextField("An animal", text: $animal)
 
-**Problem 3**
-
-```swift
-@State private var loudness = 0
-Slider(value: $loudness, in: 0...10)
-```
-
-**Problem 4**
-
-```swift
-Form {
-    for n in 1...10 {
-        Text("\(n)")
+        Text("\(name) woke up and found a \(animal) in the kitchen.")
     }
 }
 ```
 
-**Problem 5**
+Each control gets its own `@State`. Four questions means four `@State` lines.
 
-This one runs, but the output is ugly and wrong. You want just the month and day. You get a timestamp.
+The story line is just string interpolation from Lesson 1 — the same `\( )` you used in `print`. Nothing new.
 
-```swift
-@State private var birthday = Date()
-
-Text("Born on \(birthday).")
-```
+> **Try it:** add a third `TextField` for a place, and work it into the sentence.
 
 ---
 
-## Part 3: Build your own
+## Step 3: Numbers
 
-Keep the Mad Libs idea, but the story is yours. Write a new one. It must be at least two sentences long.
+A `TextField` hands you a `String`. You cannot do math with it, and a number keypad will not appear. For numbers, use a control built for numbers.
+
+```swift
+@State private var count = 1
+```
+
+```swift
+Stepper("How many: \(count)", value: $count, in: 1...50)
+```
+
+`Stepper` gives plus and minus buttons. `in: 1...50` sets the lowest and highest it will go — tap past either end and nothing happens.
+
+**The type has to match the control.** This is the error you will hit most in this lab:
+
+| Control | What type its `@State` must be |
+|---|---|
+| `TextField` | `String` |
+| `Stepper` | `Int` |
+| `Slider` | `Double` |
+| `Toggle` | `Bool` |
+| `ColorPicker` | `Color` |
+| `DatePicker` | `Date` |
+
+`Slider` is the one that catches people. It needs a `Double`, so its starting value must be written `0.0`, not `0`. Plain `0` is an `Int` and the project will not build.
+
+> **Try it:** add `@State private var loudness = 0.0` and `Slider(value: $loudness, in: 0...10)`. Then change `0.0` to `0` and read the error so you recognize it later.
+
+---
+
+## Step 4: Color
+
+```swift
+@State private var storyColor = Color.blue
+```
+
+```swift
+ColorPicker("Story color", selection: $storyColor)
+
+Text("\(name) woke up and found a \(animal) in the kitchen.")
+    .foregroundStyle(storyColor)
+```
+
+Notice the two different forms again: `$storyColor` where the user picks it, plain `storyColor` where you use it.
+
+**Where you attach a modifier matters.** `.foregroundStyle(storyColor)` on the `Text` colors that one line. Put the same modifier on the whole `Form` and it colors everything in it. Same modifier, different result, because it applies to whatever it is attached to.
+
+> **Try it:** move `.foregroundStyle(storyColor)` onto the `Form` and run it. Then put it back on the `Text`.
+
+---
+
+## Step 5: Sections
+
+Once you have six or seven controls, the form turns into a wall. `Section` groups them under a heading.
+
+```swift
+Form {
+    Section("Fill these in") {
+        TextField("Your name", text: $name)
+        TextField("An animal", text: $animal)
+        Stepper("How many: \(count)", value: $count, in: 1...50)
+        ColorPicker("Story color", selection: $storyColor)
+    }
+
+    Section("Your story") {
+        Text("\(name) woke up and found \(count) \(animal)s in the kitchen.")
+            .font(.title3)
+            .foregroundStyle(storyColor)
+    }
+}
+```
+
+That is the whole machine. Everything after this is making it yours.
+
+---
+
+## Step 6: Dates
+
+```swift
+@State private var birthday = Date()
+```
+
+```swift
+DatePicker("Birthday", selection: $birthday, displayedComponents: .date)
+```
+
+`displayedComponents: .date` hides the clock half. Leave it off and students get hours and minutes too.
+
+A `Date` holds far more than you want to show. Printed raw, you get a timestamp with the time and timezone attached. Say which pieces you want:
+
+```swift
+Text("Born on \(birthday, format: .dateTime.month(.wide).day()).")
+```
+
+The pieces chain in any order:
+
+```swift
+.day()                 // 13
+.month(.wide)          // October
+.month(.abbreviated)   // Oct
+.weekday(.wide)        // Tuesday
+.year()                // 2026
+```
+
+> **Try it:** show the birthday with no format first so you see the timestamp, then add the format.
+
+---
+
+## Now build your own
+
+Keep the Mad Libs idea, but the story is yours. Write a new one, at least two sentences long.
 
 Your form must include **all** of these:
 
 - [ ] 4 or more `TextField`s
-- [ ] 2 different kinds of **number** input, chosen from `Stepper`, `Slider`, wheel `Picker`, `TextField` with `.number`
-- [ ] 2 different kinds of **color** input, chosen from `ColorPicker`, a `Picker` of color names, a brightness `Slider`
+- [ ] 2 different kinds of **number** input, from `Stepper`, `Slider`, wheel `Picker`, `TextField` with `.number`
+- [ ] 2 different kinds of **color** input, from `ColorPicker`, a `Picker` of color names, a brightness `Slider`
 - [ ] 1 `Toggle`
 - [ ] 1 `DatePicker`, shown in the story as just a month and day
 - [ ] 2 or more `Section`s with titles
-- [ ] every answer the user types shows up somewhere in the story
+- [ ] every answer the user gives shows up somewhere in the story
 
-The reference at the bottom shows how each one is written.
+The reference at the bottom has every control written out.
 
 ---
 
-## Part 4: The ending
+## The ending
 
 Add a second `Text` under your story that changes based on what the user picked. Use `if` / `else if` / `else` from Lesson 5.
 
@@ -151,18 +218,17 @@ Make a `[String]` array of five possible endings at the top of the file. Add a "
 let endings = ["...", "...", "...", "...", "..."]
 ```
 
-Pick one with `endings.randomElement()!` or pull one out by index using a number the user chose. Both work. Index is easier.
+Pick one with `endings.randomElement()!`, or pull one out by index using a number the user chose. Both work. Index is easier.
 
 ---
 
-## Reference: every form input you can use
+## Reference: every form input
 
-This is a real working view. To try it, change `ContentView`'s body to show `AllInputs()` for a minute, run it, and poke at every control. Then put your own back.
+A real working view. To try it, change `ContentView`'s body to show `AllInputs()` for a minute, poke at every control, then put yours back.
 
 ```swift
 struct AllInputs: View {
 
-    // Each control needs its own @State, and the TYPE must match.
     @State private var text = ""
     @State private var secret = ""
     @State private var wholeNumber = 0
@@ -248,7 +314,6 @@ struct AllInputs: View {
                 // Date, calendar only, no clock
                 DatePicker("Pick a day", selection: $day, displayedComponents: .date)
 
-                // Showing just the parts you want
                 Text("Just the number: \(day, format: .dateTime.day())")
                 Text("Month and day: \(day, format: .dateTime.month(.wide).day())")
                 Text("Weekday: \(day, format: .dateTime.weekday(.wide))")
@@ -259,7 +324,7 @@ struct AllInputs: View {
 }
 ```
 
-A color picker made out of Lesson 4 and Lesson 5. It turns a name into a `Color`.
+A color picker built out of Lesson 4 and Lesson 5. It turns a name into a `Color`.
 
 ```swift
 func colorFor(name: String) -> Color {
@@ -277,26 +342,11 @@ func colorFor(name: String) -> Color {
 
 ---
 
-## Matching types
-
-| Control | `@State` type |
-|---|---|
-| `TextField` | `String` |
-| `SecureField` | `String` |
-| `Slider` | `Double` |
-| `Stepper` | `Int` |
-| `Toggle` | `Bool` |
-| `ColorPicker` | `Color` |
-| `DatePicker` | `Date` |
-| `Picker` | whatever the tags are |
-
----
-
 ## Before you turn it in
 
 - [ ] Every control has its own `@State` with a starting value
 - [ ] Every `@State` type matches its control
-- [ ] Every `$` is where it belongs
+- [ ] Every `$` is where it belongs, and nowhere it isn't
 - [ ] Your story reads as a real sentence, not a list
 - [ ] The date shows as a day, not a timestamp
 - [ ] You can change every single control and nothing crashes
