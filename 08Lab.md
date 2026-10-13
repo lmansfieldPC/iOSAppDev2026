@@ -1,15 +1,13 @@
 # Lab 8: Building a Form
 
 
-You are building a small machine: the user answers some questions, and a sentence underneath changes as they answer. Next class you will turn it into a full Mad Libs game.
-
-Do each step, run it, and read the explanation before moving on.
+Do every step in order. Run after every step.
 
 ---
 
-## Step 1: One question
+## Step 1
 
-Start a new project and replace `ContentView` with this.
+**Type this.** Replace everything in `ContentView`.
 
 ```swift
 import SwiftUI
@@ -27,66 +25,66 @@ struct ContentView: View {
 }
 ```
 
-Run it and type your name. The greeting changes as you type.
+**Run it. Type your name.** The greeting should change as you type.
 
-**What `@State` means.** A normal `let` or `var` inside a view cannot change once the screen is drawn. `@State` marks a value as one that *will* change, and tells SwiftUI to redraw the screen every time it does. Without it, typing would go nowhere.
+**Why it works:**
+- `@State` = this value can change, and the screen redraws when it does.
+- `= ""` is the starting value. Every `@State` needs one.
+- `$name` = the TextField can **change** it. `name` = you are only **reading** it.
 
-**Why it needs a starting value.** `@State var name = ""` starts as an empty string. If you write `@State var name: String` with no value, Swift has nothing to show before the user types, and the project will not build. Every `@State` needs a starting value.
-
-**What the `$` does.** There are two different jobs here, and they use different syntax:
-
-- `Text("Hello, \(name)!")` — just *reading* the value. No dollar sign.
-- `TextField("Your name", text: $name)` — reading **and writing**. The TextField has to be able to change `name` when the user types, so it needs `$name`.
-
-The `$` means "a two-way connection to this value." Any control the user can change needs it. Anything that only displays needs the plain name.
-
-> **Try it:** delete the `$` from `$name` and run. Read the error. Put it back.
+**Try it:** delete the `$` from `$name`. Run. Read the error. Put it back.
 
 ---
 
-## Step 2: More questions, one sentence
+## Step 2
+
+**Add one line** to your `@State` list:
 
 ```swift
-@State var name = ""
 @State var animal = ""
 ```
 
-```swift
-var body: some View {
-    Form {
-        TextField("Your name", text: $name)
-        TextField("An animal", text: $animal)
+**Add one line** inside the `Form`, under the first TextField:
 
-        Text("\(name) woke up and found a \(animal) in the kitchen.")
-    }
-}
+```swift
+TextField("An animal", text: $animal)
 ```
 
-Each control gets its own `@State`. Four questions means four `@State` lines.
+**Replace** the `Text` line with:
 
-The sentence is just string interpolation from Lesson 1 — the same `\( )` you used in `print`. Nothing new.
+```swift
+Text("\(name) woke up and found a \(animal) in the kitchen.")
+```
 
-> **Try it:** add a third `TextField` for a place, and work it into the sentence.
+**Run it. Type in both boxes.**
+
+**Why it works:** one `@State` per box. The sentence uses `\( )` from Lesson 1.
+
+**Try it:** add a third box for a place. Put it in the sentence.
 
 ---
 
-## Step 3: Numbers
+## Step 3
 
-A `TextField` hands you a `String`. You cannot do math with it, and a number keypad will not appear. For numbers, use a control built for numbers.
+**Add one line** to your `@State` list:
 
 ```swift
 @State var count = 1
 ```
 
+**Add one line** inside the `Form`:
+
 ```swift
 Stepper("How many: \(count)", value: $count, in: 1...50)
 ```
 
-`Stepper` gives plus and minus buttons. `in: 1...50` sets the lowest and highest it will go — tap past either end and nothing happens.
+**Run it. Tap plus and minus.**
 
-**The type has to match the control.** This is the error you will hit most:
+**Why it works:** a TextField gives you a `String`. You cannot do math with a String. `Stepper` gives you an `Int`. `in: 1...50` is the lowest and highest it will go.
 
-| Control | What type its `@State` must be |
+**The type must match the control:**
+
+| Control | Type |
 |---|---|
 | `TextField` | `String` |
 | `Stepper` | `Int` |
@@ -95,39 +93,54 @@ Stepper("How many: \(count)", value: $count, in: 1...50)
 | `ColorPicker` | `Color` |
 | `DatePicker` | `Date` |
 
-`Slider` is the one that catches people. It needs a `Double`, so its starting value must be written `0.0`, not `0`. Plain `0` is an `Int` and the project will not build.
+**Try it:** add these two lines. Run.
 
-> **Try it:** add `@State var loudness = 0.0` and `Slider(value: $loudness, in: 0...10)`. Then change `0.0` to `0` and read the error so you recognize it later. Change it back.
+```swift
+@State var loudness = 0.0
+```
+```swift
+Slider(value: $loudness, in: 0...10)
+```
+
+Now change `0.0` to `0`. Run. Read the error. Change it back to `0.0`.
 
 ---
 
-## Step 4: Color
+## Step 4
+
+**Add one line** to your `@State` list:
 
 ```swift
 @State var storyColor = Color.blue
 ```
 
+**Add one line** inside the `Form`:
+
 ```swift
 ColorPicker("Story color", selection: $storyColor)
-
-Text("\(name) woke up and found a \(animal) in the kitchen.")
-    .foregroundStyle(storyColor)
 ```
 
-Notice the two forms again: `$storyColor` where the user picks it, plain `storyColor` where you use it.
+**Add one line** under your sentence:
 
-**Where you attach a modifier matters.** `.foregroundStyle(storyColor)` on the `Text` colors that one line. Put the same modifier on the whole `Form` and it colors everything in it. Same modifier, different result, because it applies to whatever it is attached to.
+```swift
+.foregroundStyle(storyColor)
+```
 
-> **Try it:** move `.foregroundStyle(storyColor)` onto the `Form` and run it. Then put it back on the `Text`.
+**Run it. Pick a color.** Only the sentence should change color.
+
+**Why it works:** `$storyColor` where the user picks it. `storyColor` where you use it. Same rule as Step 1.
+
+**Try it:** move `.foregroundStyle(storyColor)` down so it is attached to the whole `Form` instead. Run. Everything turns that color. Move it back onto the `Text`.
 
 ---
 
-## Step 5: Sections
+## Step 5
 
-Once you have six or seven controls, the form turns into a wall. `Section` groups them under a heading.
+**Wrap your controls in Sections.** Your `Form` should now look exactly like this:
 
 ```swift
 Form {
+
     Section("Fill these in") {
         TextField("Your name", text: $name)
         TextField("An animal", text: $animal)
@@ -140,32 +153,49 @@ Form {
             .font(.title3)
             .foregroundStyle(storyColor)
     }
+
 }
 ```
 
-> **Try it:** move the `Stepper` into the second Section and run it. Notice that it still works — Sections change where things sit, not what they do. Move it back.
+**Run it.** You should see two gray headings.
+
+**Why it works:** `Section` groups things under a title. It changes where things sit, not what they do.
 
 ---
 
-## Step 6: Dates
+## Step 6
+
+**Add one line** to your `@State` list:
 
 ```swift
 @State var birthday = Date()
 ```
 
+**Add one line** to the first Section:
+
 ```swift
 DatePicker("Birthday", selection: $birthday, displayedComponents: .date)
 ```
 
-`displayedComponents: .date` hides the clock half. Leave it off and you get hours and minutes too.
+**Add one line** to the second Section:
 
-A `Date` holds far more than you want to show. Printed raw, you get a timestamp with the time and timezone attached. Say which pieces you want:
+```swift
+Text("Born on \(birthday).")
+```
+
+**Run it.** The date looks terrible. It shows a time and a timezone.
+
+**Now fix it.** Replace that line with:
 
 ```swift
 Text("Born on \(birthday, format: .dateTime.month(.wide).day()).")
 ```
 
-The pieces chain in any order:
+**Run it again.**
+
+**Why it works:** a `Date` holds way more than you want to show. `format:` says which pieces to print.
+
+**Other pieces you can use:**
 
 ```swift
 .day()                 // 13
@@ -175,13 +205,13 @@ The pieces chain in any order:
 .year()                // 2026
 ```
 
-> **Try it:** show the birthday with no format first so you see the timestamp, then add the format.
+**Try it:** change the format to show the weekday instead.
 
 ---
 
-## What you should have
+## Done. Check your file.
 
-By the end of Step 6 your file should look about like this. Save it — you build on it next class.
+It should look like this. **Save it. You need it next class.**
 
 ```swift
 import SwiftUI
@@ -218,13 +248,10 @@ struct ContentView: View {
 }
 ```
 
----
+**Before you leave:**
 
-## Check yourself
-
-- [ ] Every `@State` has a starting value
-- [ ] Every `@State` type matches its control
-- [ ] Every `$` is where it belongs, and nowhere it isn't
-- [ ] You can explain the difference between `name` and `$name`
-- [ ] The date shows as a day, not a timestamp
+- [ ] 5 `@State` lines, each with a starting value
+- [ ] 2 Sections with titles
+- [ ] The date shows a month and day, not a timestamp
 - [ ] You can change every control and nothing crashes
+- [ ] You can say out loud what the `$` does
