@@ -1,7 +1,5 @@
 # Lab 12: Mad Libs Machine
 
-Run this in Swift Playground or Xcode. **Not SwiftFiddle.**
-
 You are building a form that collects silly answers and then builds a story out of them. As the user changes an input, the story changes with it.
 
 Work in order. Run after every single change.
