@@ -68,13 +68,13 @@ day, name, animal, _____, _____, _____, _____, _____, _____, _____
 
 ## Step 2: The four text boxes
 
-**Here is the first one. Add this where it says YOUR @State LINES GO HERE:**
+**Here is the first one. Add this where it says YOUR @State VARIABLES GO HERE:**
 
 ```swift
 @State var name = ""
 ```
 
-**And add this where it says YOUR CONTROLS GO HERE:**
+**And add this where it says YOUR FORM CONTROLS GO HERE:**
 
 ```swift
 TextField("Your name", text: $name)
