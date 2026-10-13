@@ -30,9 +30,10 @@ struct ContentView: View {
 
             Section("Your story") {
 
-                Text("On \(day, format: .dateTime.month(.wide).day()), \(name) woke up on a strange island with a \(animal) sitting on the bed. 
-                They hiked all the way to \(place), where somebody was handing out free \(food). \(name) grabbed \(count) of them and ran. 
-                A sign on the beach said the next boat leaves in \(age) days.")
+                Text("On \(day, format: .dateTime.month(.wide).day()), \(name) woke up on a strange island with 
+                a \(animal) sitting on the bed.  They hiked all the way to \(place), where somebody was handing 
+                out free \(food). \(name) grabbed \(count) of them and ran. A sign on the beach said the next boat 
+                leaves in \(age) days.")
                     .font(.title3)
                     .foregroundStyle(storyColor)
 
