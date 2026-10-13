@@ -1,6 +1,6 @@
 # Lab 9: Mad Libs Machine
 
-**The story is already written. You do not write any of it.** Your job is to build the controls that fill in the blanks.
+In this lab, you will build a MadLibs game. Your job is to build the controls that fill in the blanks.
 
 Each step shows you **one** example, then you write the rest yourself.
 
