@@ -1,4 +1,4 @@
-# Lab 11: Mad Libs Machine
+# Lab 8: Mad Libs Machine
 
 You are building a form that collects silly answers and then builds a story out of them. As the user changes an input, the story changes with it.
 
