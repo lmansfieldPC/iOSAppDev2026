@@ -1,14 +1,18 @@
 # Lab 9: Mad Libs Machine
 
-In this lab, you will build a MadLibs game. Your job is to build the controls that fill in the blanks.
+You are building this in three parts:
 
-Each step shows you **one** example, then you write the rest yourself.
+1. **Make the variables.** All ten of them, before anything else.
+2. **Make the controls.** One for each variable.
+3. **Paste in the story.** It is already written for you.
 
 Run after every step.
 
 ---
 
-## Step 1: Paste the story
+# Part 1: The variables
+
+## Step 1: Empty shell
 
 **Replace everything in `ContentView` with this.**
 
@@ -17,30 +21,20 @@ import SwiftUI
 
 struct ContentView: View {
 
-    // YOUR @State VARIABLES GO HERE
+    // Step 2 goes here
 
     var body: some View {
         Form {
 
             Section("Fill these in") {
 
-                // YOUR FORM CONTROLS GO HERE
+                // Part 2 goes here
 
             }
 
             Section("Your story") {
 
-                Text("On \(day, format: .dateTime.month(.wide).day()), \(name) woke up on a strange island with a \(animal) sitting on the bed.  They hiked all the way to \(place), where somebody was handing out free \(food). \(name) grabbed \(count) of them and ran. A sign on the beach said the next boat leaves in \(age) days.")
-                    .font(.title3)
-                    .foregroundStyle(storyColor)
-
-                if happyEnding {
-                    Text("A helicopter showed up and everyone made it home by dinner.")
-                        .foregroundStyle(endingColor)
-                } else {
-                    Text("The \(animal) took the last boat and waved goodbye.")
-                        .foregroundStyle(endingColor)
-                }
+                // Part 3 goes here
 
             }
 
@@ -49,67 +43,75 @@ struct ContentView: View {
 }
 ```
 
-**It will not run yet.** You should see a pile of red errors that all say the same thing:
-
-> Cannot find `name` in scope
-
-That is Swift telling you the story is using variables you have not made yet. **Your job for the rest of this lab is to make those errors go away, one group at a time.**
-
-The story needs **10** variables. Find them all now and write them down:
-
-```
-day, name, animal, _____, _____, _____, _____, _____, _____, _____
-```
+**Run it.** You get an empty gray screen with two headings. That is correct.
 
 ---
 
-## Step 2: The four text boxes
+## Step 2: Write all ten variables
 
-**Here is the first one. Add this where it says YOUR @State VARIABLES GO HERE:**
+This app needs ten pieces of information from the user. **Every one needs a `@State` line with a starting value.**
+
+**Here is the first one. Put it where it says "Step 2 goes here":**
 
 ```swift
 @State var name = ""
 ```
 
-**And add this where it says YOUR FORM CONTROLS GO HERE:**
+**Now write the other nine from this table.** Same shape every time: `@State var` then the name, then `=`, then the starting value.
+
+| Variable | Type | Starting value to use |
+|---|---|---|
+| `name` | String | `""` |
+| `animal` | String | `""` |
+| `place` | String | `""` |
+| `food` | String | `""` |
+| `count` | Int | `1` |
+| `age` | Int | `16` |
+| `happyEnding` | Bool | `true` |
+| `day` | Date | `Date()` |
+| `storyColor` | Color | `Color.blue` |
+| `endingColor` | Color | `Color.red` |
+
+**You never type the Type column.** Swift figures the type out from the starting value. `""` makes a String, `1` makes an Int, `true` makes a Bool. The column is there so you know what each one is.
+
+**Run it.** Still an empty screen, but no errors. **Ten `@State` lines, no errors, before you go on.**
+
+---
+
+# Part 2: The controls
+
+Every control goes inside `Section("Fill these in")`.
+
+## Step 3: The four text boxes
+
+**Here is the first one:**
 
 ```swift
 TextField("Your name", text: $name)
 ```
 
-**Now write the other three yourself:** `animal`, `place`, and `food`.
+**Now write three more**, for `animal`, `place`, and `food`:
 
-Same shape every time:
-
-```swift
-@State var _____ = ""
-```
 ```swift
 TextField("_____", text: $_____)
 ```
 
-The label in quotes is what the user sees, so make it tell them what to type.
+The words in quotes are what the user sees, so make them tell the user what to type.
 
-**Four of your errors should disappear.** Still broken — keep going.
+**Run it. Type in all four boxes.** Nothing happens anywhere else yet. That is fine — there is no story to change.
 
 ---
 
-## Step 3: The two numbers
+## Step 4: The two numbers
 
-**Here is a Stepper for `count`:**
+**Here is a stepper for `count`:**
 
-```swift
-@State var count = 1
-```
 ```swift
 Stepper("How many: \(count)", value: $count, in: 1...50)
 ```
 
-**Now you write a wheel picker for `age`.** Start it at 16:
+**Now write a spinning wheel for `age`:**
 
-```swift
-@State var _____ = 16
-```
 ```swift
 Picker("Days until the boat", selection: $_____) {
     ForEach(1...100, id: \.self) { number in
@@ -120,65 +122,91 @@ Picker("Days until the boat", selection: $_____) {
 .frame(height: 100)
 ```
 
-**Two more errors gone.**
+**Run it. Tap the stepper. Spin the wheel.**
 
 ---
 
-## Step 4: The two colors
+## Step 5: The two colors
 
 **Here is the first one:**
 
 ```swift
-@State var storyColor = Color.blue
-```
-```swift
 ColorPicker("Story color", selection: $storyColor)
 ```
 
-**Now you write the second one.** It is named `endingColor` and starts red:
+**Now write the second one, for `endingColor`:**
 
-```swift
-@State var _____ = Color.red
-```
 ```swift
 ColorPicker("_____", selection: $_____)
 ```
 
-**Two more errors gone.** Two left.
+**Run it. Open both color wheels.**
 
 ---
 
-## Step 5: The switch and the date
+## Step 6: The switch and the date
 
-**No example this time. You have done all of these before.**
+**No example this time.**
 
-The story uses `happyEnding` to pick between two endings. It is either on or off, so its type is `Bool`:
+`happyEnding` is a `Bool`, so it needs a `Toggle`:
 
-```swift
-@State var _____ = true
-```
 ```swift
 Toggle("_____", isOn: $_____)
 ```
 
-The story uses `day` at the very beginning. Make the picker show the calendar only, no clock:
+`day` is a `Date`, so it needs a `DatePicker`. The last blank hides the clock — check Lab 8 Step 6 if you forget it:
 
-```swift
-@State var _____ = Date()
-```
 ```swift
 DatePicker("_____", selection: $_____, displayedComponents: _____)
 ```
 
-If you forget what goes in that last blank, check Lab 8 Step 6.
+**Run it. Flip the switch. Open the calendar.**
+
+**You should now have ten controls and zero errors.** Count them before you go on.
 
 ---
 
-## Step 6: Run it
+# Part 3: The story
 
-**All 10 errors should be gone.**
+## Step 7: Paste it in
 
-Go through every control and check:
+**You do not write any of this.** Put it where it says "Part 3 goes here", inside `Section("Your story")`.
+
+```swift
+VStack(alignment: .leading, spacing: 12) {
+
+    Text("On \(day, format: .dateTime.month(.wide).day()), \(name) woke up on a strange island.")
+
+    Text("A \(animal) was sitting on the bed, holding a map.")
+
+    Text("They hiked all the way to \(place), where somebody was handing out free \(food).")
+
+    Text("\(name) grabbed \(count) of them and ran.")
+
+    Text("A sign on the beach said the next boat leaves in \(age) days.")
+
+}
+.font(.title3)
+.foregroundStyle(storyColor)
+
+if happyEnding {
+    Text("A helicopter showed up and everyone made it home by dinner.")
+        .foregroundStyle(endingColor)
+} else {
+    Text("The \(animal) took the last boat and waved goodbye.")
+        .foregroundStyle(endingColor)
+}
+```
+
+**Run it.** It should work right away, because you already made all ten variables in Part 1.
+
+**If you get "Cannot find `___` in scope":** that variable is missing from Part 1, or you spelled it differently. Go back to the table in Step 2.
+
+---
+
+## Step 8: Try everything
+
+Go down the list and check each one:
 
 - [ ] Typing in each of the four boxes changes the story
 - [ ] The stepper changes how many they grabbed
@@ -189,7 +217,7 @@ Go through every control and check:
 - [ ] The date picker changes the first words of the story
 - [ ] The date shows a month and day, not a timestamp
 
-**If one of them does nothing, you probably forgot a `$`.**
+**If a control does nothing, you probably forgot a `$`.**
 
 ---
 
@@ -197,7 +225,7 @@ Go through every control and check:
 
 Add a surprise line that changes with the stepper.
 
-**Add this at the very top of the struct, with your `@State` lines:**
+**Add this with your `@State` lines in Part 1:**
 
 ```swift
 let surprises = ["A dragon landed on the roof.",
@@ -207,7 +235,7 @@ let surprises = ["A dragon landed on the roof.",
                  "Nobody remembers what happened next."]
 ```
 
-**Add this inside `Section("Your story")`, at the very bottom:**
+**Add this at the bottom of `Section("Your story")`:**
 
 ```swift
 Text(surprises[count - 1])
@@ -216,6 +244,8 @@ Text(surprises[count - 1])
 **Run it. Tap the stepper up to 6.** The app crashes.
 
 **Why?** Think about Lesson 3. Then fix it by changing one number in your Stepper.
+
+**One more thing to notice:** `surprises` is a `let`, not a `@State`. The five sentences never change, so it does not need to be `@State`. Only things the user can change need that.
 
 ---
 
@@ -233,8 +263,8 @@ Text(surprises[count - 1])
 
 | Problem | Check this |
 |---|---|
-| "Cannot find `___` in scope" | You have not made that `@State` line yet, or you spelled it differently |
-| "Cannot convert value of type..." | The type does not match the control. Lab 8, Step 3 |
+| "Cannot find `___` in scope" | That `@State` line is missing, or spelled differently |
+| "Cannot convert value of type..." | The starting value is the wrong type. Check the table in Step 2 |
 | The control shows but does nothing | You forgot the `$` |
-| Both colors change at once | The `.foregroundStyle` is on the wrong `Text` |
+| Both colors change at once | The `.foregroundStyle` is on the wrong thing |
 | The date shows a time and a timezone | You changed the `format:` part. Put it back |
