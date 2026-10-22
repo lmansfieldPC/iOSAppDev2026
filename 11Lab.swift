@@ -171,23 +171,7 @@ func sameFirstAndLast(list: [String]) -> Bool {
 }
 
 
-// ==========================================================
-// 10. dropFirst
-//
-// Return a NEW array with the first item taken off.
-// You can assume the list has at least one item.
-//
-// You cannot change the array that gets handed to you,
-// so make a var copy of it first.
-//
-//   ["a", "b", "c"]  ->  ["b", "c"]
-//   ["x", "y"]       ->  ["y"]
-//   ["only"]         ->  []
-// ==========================================================
 
-func dropFirst(list: [String]) -> [String] {
-    return []           // TODO: replace this
-}
 
 
 // ==========================================================
@@ -311,37 +295,3 @@ testBool(label: "a, b, c", got: sameFirstAndLast(list: ["a", "b", "c"]), want: f
 testBool(label: "one item", got: sameFirstAndLast(list: ["solo"]),       want: true)
 testBool(label: "x, x",    got: sameFirstAndLast(list: ["x", "x"]),      want: true)
 
-print("")
-print("===== 10. dropFirst =====")
-testArray(label: "3 items", got: dropFirst(list: ["a", "b", "c"]), want: ["b", "c"])
-testArray(label: "2 items", got: dropFirst(list: ["x", "y"]),      want: ["y"])
-testArray(label: "1 item",  got: dropFirst(list: ["only"]),        want: [])
-
-
-// ==========================================================
-// STUCK?
-//
-//   averageOf gives 1.0 when it should give 1.3333
-//     You divided an Int by an Int. Convert first with Double( ).
-//
-//   batteryStatus says Good for 100
-//     Your conditions are in the wrong order. Go biggest first.
-//
-//   roundToNearestTen gives back the same number
-//     Use % to find how far past a ten it is, then take that
-//     much off. If it was 5 or more, add ten back on.
-//
-//   canAfford is wrong on every coupon test
-//     20 percent off means you still pay 80 percent. Multiply
-//     the price by 0.8.
-//
-//   scoreboard has the scores backwards
-//     The winner's score goes first, so the away case is not a
-//     copy of the home case.
-//
-//   sameFirstAndLast crashes
-//     The last index is count - 1, not count.
-//
-//   dropFirst will not build
-//     You cannot change list directly. Make a var copy first.
-// ==========================================================
