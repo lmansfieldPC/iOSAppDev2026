@@ -1,5 +1,5 @@
 // =========================================================
-// Lab 10: Five Apps
+// Lab 12: Five Apps
 //
 // This is one app with five mini apps inside it.
 // Use the buttons across the top to switch between them.
