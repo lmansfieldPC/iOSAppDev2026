@@ -1,5 +1,11 @@
 import SwiftUI
 
+//Your assignment -
+//Change the app so that 
+//1) When you get 10 points the game automatically resets and the winner gets a message stating they won.
+//2) The number sentence is sometimes a subtraction.
+
+
 struct ContentView: View {
     @State var numList = [2, 2, 4]
     @State var numberListBool = true
@@ -47,6 +53,12 @@ struct ContentView: View {
                 .background(Color.blue)
                 .clipShape(Capsule())
             
+            if score > 5 {
+                  Text("You're on a roll!")
+            }
+          
+           
+            
             Button("Play Again"){
                 resetGame()
             } .padding(15)
@@ -68,7 +80,9 @@ struct ContentView: View {
         if answerTruth == true {
             return [num1, num2, sum]
         } else {
-            let nudge = Int.random(in: 1...3)
+            let nudges = [-1, -2, -3, 1, 2, 3]
+            let index = Int.random(in: 0...5)
+            let nudge = nudges[index]
             return [num1, num2, sum + nudge]
         }
     }
