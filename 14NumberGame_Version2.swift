@@ -5,6 +5,7 @@ import SwiftUI
 //2) Have it also do subtraction.
 //3) Add a timer
 
+let clock = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
 struct ContentView: View {
     @State var numList = [2, 2, 4, 0]    
@@ -13,7 +14,7 @@ struct ContentView: View {
     @State var winner = false
     @State var start = false
     @State var timer = 0 
-    let clock = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     
     var body: some View {
         VStack {
